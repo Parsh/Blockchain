@@ -12,6 +12,11 @@ contract Faucet {
         owner = msg.sender;
     }
 
+    modifier onlyOwner{
+        require(msg.sender == owner);
+        _;
+    }
+
     // Give out ether to anyone who asks
     function withdraw(uint withdraw_amount) public {
 
@@ -25,8 +30,7 @@ contract Faucet {
     // Accept any incoming amount
     function () public payable {}
 
-    function destroy() public{
-        require(msg.sender == owner);
+    function destroy() public onlyOwner{
         selfdestruct(owner);
     }
 
