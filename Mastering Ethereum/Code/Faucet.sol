@@ -5,6 +5,13 @@ pragma solidity ^0.4.19;
 // Our first contract is a faucet!
 contract Faucet {
 
+    address owner;
+
+	// Initialize Faucet contract: set owner
+    constructor() public{
+        owner = msg.sender;
+    }
+
     // Give out ether to anyone who asks
     function withdraw(uint withdraw_amount) public {
 
@@ -17,5 +24,10 @@ contract Faucet {
 
     // Accept any incoming amount
     function () public payable {}
+
+    function destroy() public{
+        require(msg.sender == owner);
+        selfdestruct(owner);
+    }
 
 }
